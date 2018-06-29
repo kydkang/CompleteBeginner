@@ -1,4 +1,14 @@
 {% load widget_tweaks %}
+
+
+{% if form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">     <!--role : HTML..mark the functionality of the content.-->
+    {% for error in form.non_field_errors %}
+      <p {% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p> 
+    {% endfor %}                              <!--mb-0 :  to create a bottom margin of 0 --> 
+  </div>
+{% endif %}
+
 {% for field in form %}
   <div class="form-group">
     {{ field.label_tag }}
@@ -18,7 +28,7 @@
     {% endif %}
     {% if field.help_text %}
       <small class="form-text text-muted">
-        {{ field.help_text }}
+        {{ field.help_text | safe }}
       </small>
     {% endif %}
   </div>

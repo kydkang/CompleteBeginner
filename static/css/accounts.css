@@ -1,0 +1,17 @@
+body {
+    background-image: url(../img/shattered.png);
+  }
+  
+  .logo {
+    font-family: 'Peralta', cursive;
+  }
+  
+  .logo a {                     /* link elements inside logo class   */
+    color: rgba(0,0,0,.9);           /*  https://www.w3schools.com/cssref/css_selectors.asp */  
+  }
+  
+  .logo a:hover,                 /* links when you mouse over it under logo class */
+  .logo a:active {                /* active links  under logo class */ 
+    text-decoration: none;
+  }
+  

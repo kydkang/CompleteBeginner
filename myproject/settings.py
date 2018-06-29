@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks', 
+    'accounts', 
     'boards', 
 ]
 
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -126,3 +128,22 @@ STATICFILES_DIRS = [         # to add static directories not belong to any apps 
     os.path.join(BASE_DIR, 'static'),       
 ]
 
+LOGOUT_REDIRECT_URL = 'home'   
+LOGIN_REDIRECT_URL = 'home'
+
+# Email settings
+SERVER_EMAIL =  'introtodjango@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD =  'django123#'
+EMAIL_HOST_USER = SERVER_EMAIL
+EMAIL_PORT = 587                  # [[ TLS 587      SSL 465 ]]       
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+ADMINS = [
+    ('Admin', 'introtodjango@gmail.com') 
+]
+MANAGERS = ADMINS
+
+
+LOGIN_URL = 'login'
