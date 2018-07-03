@@ -16,7 +16,7 @@
     <a href="{% url 'reply_topic' topic.board.pk topic.pk %}"  class="btn btn-primary" role="button">Reply</a>
   </div>
 
-  {% for post in topic.posts.all %}
+  {% for post in posts %}
     <div class="card mb-2 {% if forloop.first %}border-dark{% endif %}">
       {% if forloop.first %}
         <div class="card-header text-white bg-dark py-2 px-3">{{ topic.subject }}</div>
@@ -39,15 +39,81 @@
             </div>
             {{ post.message }}
             {% if post.created_by == user %}
-              <div class="mt-3">   <!—margin top -->
-                <a href="#" class="btn btn-primary btn-sm" role="button">Edit</a>
-              </div>
+            <div class="mt-3">
+              <a href="{% url 'edit_post'  post.topic.board.pk  post.topic.pk  post.pk %}"
+                 class="btn btn-primary btn-sm"
+                 role="button">Edit</a>
+            </div>
+          
             {% endif %}
           </div>   <!-- class="col-10" -->
         </div>     <!-- class="row" -->
       </div>
     </div>
   {% endfor %}
+
+  {% if posts.has_other_pages %}
+  <nav aria-label="Posts pagination" class="mb-4">
+    <ul class="pagination">
+
+      {% if posts.number > 1 %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1">First</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">First</span>
+        </li>
+      {% endif %}
+
+      {% if posts.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ posts.previous_page_number }}">Previous</a>
+              <!--"?" denotes the query string. It will be added to the current url -->
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Previous</span>
+        </li>
+      {% endif %}
+
+      {% for page_num in posts.paginator.page_range %}
+        {% if posts.number == page_num %}  
+          <li class="page-item active">
+            <span class="page-link">
+              {{ page_num }}
+              <span class="sr-only">(current)</span>
+            </span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}  
+
+      {% if posts.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ posts.next_page_number }}">Next</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Next</span>
+        </li>
+      {% endif %}
+
+      {% if posts.number != posts.paginator.num_pages %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Last</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Last</span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
 
 
 {% endblock %}
